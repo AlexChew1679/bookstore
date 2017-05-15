@@ -132,3 +132,96 @@ MAKE LOGIC after LOGIN
                             <%= link_to 'Books', '#', class: 'btn btn-primary btn-lg' %>
                             <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-primary btn-lg' %>
                         </div>
+
+7.  create devise.css.scss at assets/stylesheets
+
+                              .form-signin {
+                                max-width: 330px;
+                                padding: 15px;
+                                margin: 0 auto;
+                              }
+                              .form-signin .form-signin-heading,
+                              .form-signin .checkbox {
+                                margin-bottom: 10px;
+                              }
+                              .form-signin .checkbox {
+                                font-weight: normal;
+                              }
+                              .form-signin .form-control {
+                                position: relative;
+                                height: auto;
+                                -webkit-box-sizing: border-box;
+                                   -moz-box-sizing: border-box;
+                                        box-sizing: border-box;
+                                padding: 10px;
+                                font-size: 16px;
+                              }
+                              .form-signin .form-control:focus {
+                                z-index: 2;
+                              }
+                              .form-signin input {
+                                margin-bottom: 10px;
+                              }
+
+8. change the styling of the login, session , edit
+
+view/devise/sessions/new.html.erb
+
+                  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-signin'}) do |f| %>
+                  <h2>Log in</h2>
+
+
+                      <%= f.input :email, required: false, autofocus: true, label: false, placeholder: 'Email' %>
+                      <%= f.input :password, required: false, label: false, placeholder: 'Password' %>
+                      <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+
+                      <p class = 'text-center'><%= f.button :submit, "Log in", class: 'btn btn-primary btn-block' %></p>
+
+                  <% end %>
+
+                  <p class = 'text-center'><%= render "devise/shared/links" %></p>
+
+
+originally it look like this :
+
+<h2>Log in</h2>
+
+                    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                      <div class="form-inputs">
+                        <%= f.input :email, required: false, autofocus: true %>
+                        <%= f.input :password, required: false %>
+                        <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+                      </div>
+
+                      <div class="form-actions">
+                        <%= f.button :submit, "Log in" %>
+                      </div>
+                    <% end %>
+
+                    <%= render "devise/shared/links" %>
+
+views/devise/registration/new.html.erb
+
+                    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-signin'}) do |f| %>
+                    <%= f.error_notification %>
+
+                    <h2 class = 'text-center'>Sign up</h2>
+
+
+                        <%= f.input :email, required: true, autofocus: true, autofocus: true, label: false, placeholder: 'Email' %>
+                        <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), autofocus: true,
+                        label: false, placeholder: 'Password' %>
+                        <%= f.input :password_confirmation, required: true,  autofocus: true,
+                        label: false, placeholder: 'Password Confirmation' %>
+
+
+
+                    <p class = 'text-center'><%= f.button :submit, "Sign up",class: 'btn btn-primary btn-lg' %></p>
+
+                    <% end %>
+
+                    <%= render "devise/shared/links" %>
+
+  I CHANGE THE STYLE AT VIEWS/DEVISE/PASSWORDS/EDIT , REGISTRATIONS/EDIT & NEW, SESSIONS/NEW.HTML ERB
+
+  REMEMBER THE DEVISE.CSS.SCSS. MUST PUT CLASS =>  class: 'form-signin'
