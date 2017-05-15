@@ -1,0 +1,27 @@
+rails g scaffold book name:string author:string description:text price:integer availablity:boolean
+
+at migration file 20170515081458_create_books.rb
+
+                      class CreateBooks < ActiveRecord::Migration[5.0]
+                        def change
+                          create_table :books do |t|
+                            t.string :name
+                            t.string :author
+                            t.text :description
+                            t.integer :price
+                            t.boolean :availablity, default: true  <= CHANGES HERE
+
+                            t.timestamps
+                          end
+                        end
+                      end
+
+
+at views/pages/home.html.erb
+
+                    <div class = 'jumbotron'>
+                        <h1>Welcome to BookStore</h1>
+                        <p> Largest Online Fitness Bookstore </p>
+                        <%= link_to 'Books', books_path, class: 'btn btn-primary btn-lg' %>   <= CHANGES HERE
+                        <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-primary btn-lg' %>
+                    </div>
