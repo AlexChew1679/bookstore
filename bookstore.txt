@@ -63,5 +63,96 @@ at views/book/show.html.erb
                     <%= link_to 'Edit', edit_book_path(@book) %> |
                     <%= link_to 'Back', books_path %>
 
+2. Customize Book Index
+
+initially it looks like this  (views/books/index.html.erb)
+
+                                <p id="notice"><%= notice %></p>
+
+                                <h1>Books</h1>
+
+                                <table>
+                                  <thead>
+                                    <tr>
+                                      <th>Name</th>
+                                      <th>Author</th>
+                                      <th>Description</th>
+                                      <th>Price</th>
+                                      <th>Availablity</th>
+                                      <th colspan="3"></th>
+                                    </tr>
+                                  </thead>
+
+                                  <tbody>
+                                    <% @books.each do |book| %>
+                                      <tr>
+                                        <td><%= book.name %></td>
+                                        <td><%= book.author %></td>
+                                        <td><%= book.description %></td>
+                                        <td><%= book.price %></td>
+                                        <td><%= book.availablity %></td>
+                                        <td><%= link_to 'Show', book %></td>
+                                        <td><%= link_to 'Edit', edit_book_path(book) %></td>
+                                        <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                                      </tr>
+                                    <% end %>
+                                  </tbody>
+                                </table>
+
+                                <br>
+
+                                <%= link_to 'New Book', new_book_path %>
+
+go to   http://getbootstrap.com/css/#grid, remember the column is max 12,
+
+from the above to only this :
+
+                                  <p id="notice"><%= notice %></p>
+
+                                  <div class = 'row'>
+                                    <%= render @books %>   <= PLEASE TAKE NOTE
+                                  </div>
+                                  <br>
+
+  <%= link_to 'New Book', new_book_path %>
+create a partial _book.html.erb
+
+                                    
+                                      <div class="col-md-3">
+                                        <div class="thumbnail">
+                                        <%=image_tag 'ruby4.jpg', class: 'img-responsive'%>
+                                        </div>
+                                        <div class = 'caption'>
+                                          <p><strong><%= book.name %></strong></p>
+                                          <p><strong>$<%= book.price/100 %></strong></p>
+                                        </div>
+                                      </div>
+                                    </div>
+
+RAILS IS VERY SMART, GO TO BooksController,
+
+                                        def index
+                                          @books = Book.all
+                                        end
+
+    IT WILL AUTOMATICALLY SEARCH FOR ANYTHING WITH THE TITLE BOOK AND RENDER IT. IT WILL GO TO BooksController THEN TO INDEX ACTION, THEN TO
+    INDEX.HTML.ERB THEN RENDER OUT THE _BOOK.HTML.ERB
+
+  what happened if after u edit the book as not available but the book still in the list, books_conroller.rb
+
+                                    def index
+                                      @books = Book.all.where(availablity:true)
+                                    end
+
+
+
+
+
+
+
+
+
+
+
 
 SCAFFOLD WILL DO EVERYTHING
