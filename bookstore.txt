@@ -117,7 +117,7 @@ from the above to only this :
   <%= link_to 'New Book', new_book_path %>
 create a partial _book.html.erb
 
-                                    
+
                                       <div class="col-md-3">
                                         <div class="thumbnail">
                                         <%=image_tag 'ruby4.jpg', class: 'img-responsive'%>
@@ -143,6 +143,32 @@ RAILS IS VERY SMART, GO TO BooksController,
                                     def index
                                       @books = Book.all.where(availablity:true)
                                     end
+
+3. adding the book -user association
+
+Model file book.rb
+
+                                          class Book < ApplicationRecord
+                                            belongs_to :user
+                                          end
+
+Model file user.rb
+
+                                    class User < ApplicationRecord
+                                      # Include default devise modules. Others available are:
+                                      # :confirmable, :lockable, :timeoutable and :omniauthable
+                                      devise :database_authenticatable, :registerable,
+                                             :recoverable, :rememberable, :trackable, :validatable
+
+                                      has_many :books
+                                    end
+
+books_controller.rb
+
+class BooksController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]  <=added at this line only
+  before_action :set_book, only: [:show, :edit, :update, :destroy]
+
 
 
 
