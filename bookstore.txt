@@ -324,12 +324,35 @@ at the end
                                 end
                                 end
 
+
+at _form.html.erb,
+
+                            <%= simple_form_for(@book, html: {class: 'form-signin'}) do |f| %>
+                              <%= f.error_notification %>
+
+                              <div class="form-inputs">
+                                <%= f.input :name, required: true, label: false, placeholder: 'Name' %>
+                                <%= f.input :author, required: true, label: false, placeholder: 'Author' %>
+                                <%= f.input :description, required: true, label: false, placeholder: 'Book Description' %>
+                                <%= f.input :image %>      <= Added here
+                                <%= f.input :resource %>    <= Added here
+                                <%= f.input :price, required: true, label: false, placeholder: 'Price' %>
+                                <%= f.input :availablity %>
+                              </div>
+
+                              <div class="form-actions">
+                                <%= f.button :submit, class: 'btn btn-primary btn-block'  %>
+                              </div>
+                            <% end %>
+
+  side note : the image and resource come from paperclip migration file added to books (rails g paperclip book image & rails g paperclip book image )
+
 8. Add dotenv , working with different environments
 
 add  gem file  = gem 'dotenv-rails', groups: [:development]
 
 go to terminal and type  =>  touch .env ,
-basically u type all security stuff in this .env file, n is completely safe... 
+basically u type all security stuff in this .env file, n is completely safe...
 
 
 
