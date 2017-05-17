@@ -291,7 +291,7 @@ change application.html.erb into below :
                                           end
 
 
-then copy                          authorize! :manage, @book  
+then copy                          authorize! :manage, @book
 
 and place at edit, update and destroy      at books_controller.rb
 
@@ -305,6 +305,26 @@ then go to application_controller.rb    and :
                               end                                                             <= to here
 
                             end
+
+7. Install paperclip , but make sure ImageMagick is installed , 
+
+gem "paperclip", "~> 5.0.0"    =>  https://github.com/thoughtbot/paperclip
+
+
+i. rails g paperclip book image                 to class Book , and book have image     (png, jpg)
+ii. rails g paperclip book resource             to class Book , and book have resource (pdf)
+
+
+at books_controller.rb
+
+at the end
+
+                                def book_params
+                                  params.require(:book).permit(:name, :author, :description, :price, :availablity, :image, :resource)
+                                end
+                                end
+
+
 
 
 
