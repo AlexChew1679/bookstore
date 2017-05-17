@@ -31,3 +31,56 @@ Extracted source (around line #24):
                  </tbody>
 
                  must put (book), so rails know which book to refer to
+
+
+  3.
+  SyntaxError in BooksController#edit
+ /home/alexchew/Rails/ebook/app/models/ability.rb:35: syntax error, unexpected end-of-input, expecting keyword_end
+
+ Extracted source (around line #35):
+ 33
+ 34
+ 35
+
+     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
+   end
+ end
+
+ Rails.root: /home/alexchew/Rails/ebook
+
+ Application Trace | Framework Trace | Full Trace
+ app/models/ability.rb:35: syntax error, unexpected end-of-input, expecting keyword_end
+ app/controllers/books_controller.rb:23:in `edit'
+
+
+ this is due i didnt put an 'end' at   ability.rb
+
+ class Ability
+   include CanCan::Ability
+
+   def initialize(user)
+     # Define abilities for the passed in user here. For example:
+     #
+       user ||= User.new # guest user (not logged in)
+         can :read, :all
+         can :manage, Book do |book|
+           book.try(:user) == user
+
+
+4.
+
+
+CanCan::AccessDenied in BooksController#edit
+You are not authorized to access this page.
+
+Extracted source (around line #23):
+
+  # GET /books/1/edit
+  def edit
+    authorize! :manage, @book   #manage is from models/ability.rb
+  end
+
+  # POST /books
+
+
+  IT MEANS CANCAN IS FUNCTIONING, CAUSE YOU;RE NOT authorize TO ACCESS TO THIS books/1 

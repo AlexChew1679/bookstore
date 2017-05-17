@@ -188,7 +188,7 @@ go to pages_controller.rb
                               end
 
                               def dashboard
-                                @books = current_user.books       <= to link to dashboard.html.erb  =@
+                                @books = current_user.books       #<= to link to dashboard.html.erb  =@
                               end
                             end
 
@@ -237,6 +237,78 @@ side note:
                               <div class = 'col-md-4'>
                                 <h3>Sales</h3>
                               </div>
+
+side note: VERY IMPORTANT
+                            (book) as per above <td><%= link_to book.name, book_path(book) %></td>
+                            if (book) is not placed next to book_path, error will occur cause book.name already being ID, so if there's no (book), Rails
+                            cant tell which book id ure refering to...
+
+5. Flash message
+change application.html.erb into below :
+
+
+                            <!DOCTYPE html>
+                            <html>
+                              <head>
+                                <title>Ebook</title>
+                                <%= csrf_meta_tags %>
+
+                                <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+                                <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+                              </head>
+
+                              <body>
+                                <%= render 'layouts/navbar'%>
+                                <% flash.each do |type, message| %>          <= changes here til
+                                <div class = 'alert alert-info fade-in'>
+                                  <button class = 'close' data-dismiss = "alert">X</button>
+                                  <%= message %>                             <= Here
+                                </div>
+                                <%end%>
+                                <div class='container' >
+                                <%= yield %>
+                              </div>
+                              </body>
+                            </html>
+
+6. Authorization using CAnCan
+
+  install gem 'cancan'  , then run rails g cancan:ability
+
+  then it will created ability.rb at model folder
+
+                                  class Ability
+                                    include CanCan::Ability
+
+                                    def initialize(user)
+                                      # Define abilities for the passed in user here. For example:
+                                      #
+                                        user ||= User.new # guest user (not logged in)
+                                          can :read, :all
+                                          can :manage, Book do |book|
+                                            book.try(:user) == user
+
+                                          end
+
+
+then copy                          authorize! :manage, @book  
+
+and place at edit, update and destroy      at books_controller.rb
+
+then go to application_controller.rb    and :
+
+                            class ApplicationController < ActionController::Base
+                              protect_from_forgery with: :exception
+
+                              rescue_from CanCan::AccessDenied do |exception|                  <= change from here
+                                redirect_to root_path, notice: "You are not authorized to access to this page "
+                              end                                                             <= to here
+
+                            end
+
+
+
+
 
 
 
