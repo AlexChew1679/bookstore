@@ -306,7 +306,7 @@ then go to application_controller.rb    and :
 
                             end
 
-7. Install paperclip , but make sure ImageMagick is installed , 
+7. Install paperclip , but make sure ImageMagick is installed ,
 
 gem "paperclip", "~> 5.0.0"    =>  https://github.com/thoughtbot/paperclip
 
@@ -323,6 +323,16 @@ at the end
                                   params.require(:book).permit(:name, :author, :description, :price, :availablity, :image, :resource)
                                 end
                                 end
+
+8. Add dotenv , working with different environments
+
+add  gem file  = gem 'dotenv-rails', groups: [:development]
+
+go to terminal and type  =>  touch .env ,
+basically u type all security stuff in this .env file, n is completely safe... 
+
+
+
 
 
 
