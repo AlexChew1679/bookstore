@@ -175,9 +175,69 @@ class BooksController < ApplicationController
 
 
 4. Creating the Dashboard
+this table from getbootstrap  == grid simple table, copy the source and modified...   in order for the code below to work, it must link to controller.
+go to pages_controller.rb
+
+                            class PagesController < ApplicationController
+                              before_action :authenticate_user!, only: [:dashboard]   <= to ensure the user that login can go to dashboard.
+
+                              def home
+                                if current_user
+                                  redirect_to books_path
+                                end
+                              end
+
+                              def dashboard
+                                @books = current_user.books       <= to link to dashboard.html.erb  =@
+                              end
+                            end
 
 
-  
+side note:
+            @books = current_user.books     = controller
+            <% @books.each do |book| %>     = html.erb
+
+
+
+<h1> DashBoard </h1>
+
+                          <div class = 'row'>
+                            <div class = 'col-md-4'>
+                              <h3>Books
+                              <%= link_to 'New Book', new_book_path, class: 'btn btn-primary btn-sm' %>
+                              </h3>
+                                <table class="table table-bordered">
+                                  <thead>
+                                    <tr>
+                                         <th>ID</th>
+                                         <th>Name</th>
+                                         <th>Available</th>
+                                         <th></th>
+                                   </tr>
+                                 </thead>
+                                 <tbody>
+                                   <% @books.each do |book| %>          =@ this is to link to controller
+
+                                   <tr>
+                                  <td><%= book.id %></td>
+                                  <td><%= link_to book.name, book_path(book) %></td>
+                                  <td><%= book.availablity %></td>
+                                  <td><%= link_to 'Edit', edit_book_path(book) %></td>
+                                </tr>
+                                <%end%>
+                              </tbody>
+                            </thead>
+
+                            </div>
+
+                            <div class = 'col-md-4'>
+                              <h3>Purchases</h3>
+                            </div>
+
+                              <div class = 'col-md-4'>
+                                <h3>Sales</h3>
+                              </div>
+
 
 
 
