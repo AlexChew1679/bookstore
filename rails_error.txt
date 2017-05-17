@@ -1,0 +1,33 @@
+1. SyntaxError in PagesController#dashboard
+/home/alexchew/Rails/ebook/app/views/pages/dashboard.html.erb:24: syntax error, unexpected ')' Edit', edit_book_path(book), );@output_buffer.safe_append='< ^ /home/alexchew/Rails/ebook/app/views/pages/dashboard.html.erb:26: syntax error, unexpected keyword_end, expecting ')' '.freeze; end ^ /home/alexchew/Rails/ebook/app/views/pages/dashboard.html.erb:40: syntax error, unexpected keyword_ensure, expecting ')' ensure ^ /home/alexchew/Rails/ebook/app/views/pages/dashboard.html.erb:42: syntax error, unexpected keyword_end, expecting ')' end ^
+
+Extracted source (around line #24):
+
+        <td><%= book.name %></td>
+        <td><%= book.availablity %></td>
+        <td><%= link_to 'Edit', edit_book_path(book), %></td>  <= Heres the problem
+      </tr>
+      <%end%>
+    </tbody>
+
+
+  2.  ActionController::UrlGenerationError in Pages#dashboard
+    Showing /home/alexchew/Rails/ebook/app/views/pages/dashboard.html.erb where line #24 raised:
+
+    No route matches {:action=>"edit", :controller=>"books"} missing required keys: [:id]
+    Extracted source (around line #24):
+
+                    <tbody>
+                      <% @books.each do |book| %>
+
+                      <tr>
+                     <td><%= book.id %></td>
+                     <td><%= book.name %></td>
+                     <td><%= book.availablity %></td>
+                     <td><%= link_to 'Edit', edit_book_path, %></td>  <= Wrong
+                      <td><%= link_to 'Edit', edit_book_path(book), %></td>  <=right
+                   </tr>
+                   <%end%>
+                 </tbody>
+
+                 must put (book), so rails know which book to refer to

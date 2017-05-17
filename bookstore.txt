@@ -146,10 +146,12 @@ RAILS IS VERY SMART, GO TO BooksController,
 
 3. adding the book -user association
 
+rails g migration AddUserIdtoBooks user_id:integer
+
 Model file book.rb
 
                                           class Book < ApplicationRecord
-                                            belongs_to :user
+                                            belongs_to :user <= ADD THIS
                                           end
 
 Model file user.rb
@@ -160,7 +162,7 @@ Model file user.rb
                                       devise :database_authenticatable, :registerable,
                                              :recoverable, :rememberable, :trackable, :validatable
 
-                                      has_many :books
+                                      has_many :books  <= ADD THIS
                                     end
 
 books_controller.rb
@@ -172,6 +174,10 @@ class BooksController < ApplicationController
 
 
 
+4. Creating the Dashboard
+
+
+  
 
 
 
